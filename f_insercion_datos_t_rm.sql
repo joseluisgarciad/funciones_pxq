@@ -1,0 +1,27 @@
+DELETE FROM t_rm;
+
+INSERT INTO t_rm (id_anno_mes, id_stack, id_pais, id_sociedad_soc_rs, id_proceso, id_subproceso, q_principal_ratio, r_m, id_usuario, fecha_cambios) 
+VALUES (202101, 'CORPO', 'España', '101', 'PERSONAL', 'Administración de Personal', 'Transacciones / Q', 3 , 'Pepe', timestamp 'now'),
+(202101, 'CORPO', 'España', '101', 'PERSONAL', 'Bajas de Empleados', 'Terminaciones / Q', 0.02 , 'Pepe', timestamp 'now'),
+(202101, 'CORPO', 'España', '101', 'PERSONAL', 'Nómina y Beneficios Sociales','Nómina procesadas / Q', 13.43 , 'Pepe', timestamp 'now'),
+(202101, 'CORPO', 'España', '101', 'PERSONAL', 'Gestión de la Formación', 'Inscriptos en Sesiones Asistidas / Q', 2.25 , 'Pepe', timestamp 'now'),
+(202101, 'CORPO', 'España', '101', 'PERSONAL', 'Gestión del Talento', 'No inscriptos en ciclos / Q', 0.66 , 'Pepe', timestamp 'now'),
+(202101, 'CORPO', 'España', '101', 'PERSONAL', 'Servicio de Atención al Empleado', 'No Tickets / Q', 16.33 , 'Pepe', timestamp 'now'),
+(202101, 'CORPO', 'España', '101', 'ECOFI', 'Gestión y Contabilización de Pagos', 'Nº Pagos CSC', 1 , 'Pepe', timestamp 'now'),
+(202101, 'CORPO', 'España', '101', 'ECOFI', 'Facturación y Cobro Especial', 'Nº Facturas emitidas', 1 , 'Pepe', timestamp 'now'),
+(202101, 'CORPO', 'España', '101', 'ECOFI', 'Gestión de Medios de Pago', 'Nº Movimientos Bancarios', 1 , 'Pepe', timestamp 'now'),
+(202101, 'CORPO', 'España', '101', 'ECOFI', 'Registro y Contabilización de Albaranes y facturas', 'Nº Facturas proveedor', 1 , 'Pepe', timestamp 'now'),
+(202101, 'CORPO', 'España', '101', 'COMPRAS', 'Compras Transaccionales', 'Cantidad de Adjudicaciones', 1 , 'Pepe', timestamp 'now'),
+(202101, 'CORPO', 'España', '101', 'COMPRAS', 'Compras NO Transaccionales', 'Importe Adjudicado', 1 , 'Pepe', timestamp 'now'),
+(202102, 'CORPO', 'España', '101', 'PERSONAL', 'Administración de Personal', 'Transacciones / Q', 3 , 'Pepe', timestamp 'now'),
+(202102, 'CORPO', 'España', '101', 'PERSONAL', 'Bajas de Empleados', 'Terminaciones / Q', 0.02 , 'Pepe', timestamp 'now'),
+(202102, 'CORPO', 'España', '101', 'PERSONAL', 'Nómina y Beneficios Sociales','Nómina procesadas / Q', 13.43 , 'Pepe', timestamp 'now'),
+(202102, 'CORPO', 'España', '101', 'PERSONAL', 'Gestión de la Formación', 'Inscriptos en Sesiones Asistidas / Q', 2.25 , 'Pepe', timestamp 'now'),
+(202102, 'CORPO', 'España', '101', 'PERSONAL', 'Gestión del Talento', 'No inscriptos en ciclos / Q', 0.66 , 'Pepe', timestamp 'now'),
+(202102, 'CORPO', 'España', '101', 'PERSONAL', 'Servicio de Atención al Empleado', 'No Tickets / Q', 16.33 , 'Pepe', timestamp 'now'),
+(202102, 'CORPO', 'España', '101', 'ECOFI', 'Gestión y Contabilización de Pagos', 'Nº Pagos CSC', 1 , 'Pepe', timestamp 'now'),
+(202102, 'CORPO', 'España', '101', 'ECOFI', 'Facturación y Cobro Especial', 'Nº Facturas emitidas', 1 , 'Pepe', timestamp 'now'),
+(202102, 'CORPO', 'España', '101', 'ECOFI', 'Gestión de Medios de Pago', 'Nº Movimientos Bancarios', 1 , 'Pepe', timestamp 'now'),
+(202102, 'CORPO', 'España', '101', 'ECOFI', 'Registro y Contabilización de Albaranes y facturas', 'Nº Facturas proveedor', 1 , 'Pepe', timestamp 'now'),
+(202102, 'CORPO', 'España', '101', 'COMPRAS', 'Compras Transaccionales', 'Cantidad de Adjudicaciones', 1 , 'Pepe', timestamp 'now'),
+(202102, 'CORPO', 'España', '101', 'COMPRAS', 'Compras NO Transaccionales', 'Importe Adjudicado', 1 , 'Pepe', timestamp 'now');

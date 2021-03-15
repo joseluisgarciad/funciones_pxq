@@ -1,0 +1,27 @@
+DELETE FROM t_qm;
+
+INSERT INTO t_qm (id_anno_mes, id_sociedad_csl, id_sociedad_soc_rs, id_stack, id_proceso, id_subproceso, q_principal, q_m, id_usuario, fecha_cambios)
+VALUES (202101, '100', '101', 'CORPO', 'PERSONAL', 'Administración de Personal', 'Personal Activo', 999.75, 'Pepe', timestamp 'now'),
+	(202101, '100', '101', 'CORPO', 'PERSONAL', 'Bajas de Empleados', 'Personal Activo',  1021.25, 'Pepe', timestamp 'now'),
+	(202101, '100', '101', 'CORPO', 'PERSONAL', 'Nómina y Beneficios Sociales', 'Personal Activo', 1032, 'Pepe', timestamp 'now'),
+	(202101, '100', '101', 'CORPO', 'PERSONAL', 'Gestión de la Formación', 'Personal Activo', 1042.75, 'Pepe', timestamp 'now'),
+	(202101, '100', '101', 'CORPO', 'PERSONAL', 'Gestión del Talento', 'Personal Activo', 1128.75, 'Pepe', timestamp 'now'),
+	(202101, '100', '101', 'CORPO', 'PERSONAL', 'Servicio de Atención al Empleado', 'Personal Activo', 1150.25, 'Pepe', timestamp 'now'),
+	(202101, '100', '101', 'CORPO', 'ECOFI', 'Gestión y Contabilización de Pagos', 'Nº Pagos CSC', 2924.48, 'Pepe', timestamp 'now'),
+	(202101, '100', '101', 'CORPO', 'ECOFI', 'Facturación y Cobro Especial', 'Nº Facturas emitidas', 5286.22, 'Pepe', timestamp 'now'),
+	(202101, '100', '101', 'CORPO', 'ECOFI', 'Gestión de Medios de Pago', 'Nº Movimientos Bancarios', 295400.13,'Pepe', timestamp 'now' ),
+	(202101, '100', '101', 'CORPO', 'ECOFI', 'Registro y Contabilización de Albaranes y facturas', 'Nº Facturas proveedor', 26677.24, 'Pepe', timestamp 'now'),
+	(202101, '100', '101', 'CORPO', 'COMPRAS', 'Compras Transaccionales', 'Cantidad de Adjudicaciones', 389.06, 'Pepe', timestamp 'now'),
+	(202101, '100', '101', 'CORPO', 'COMPRAS', 'Compras NO Transaccionales', 'Importe Adjudicado', 251891234.45, 'Pepe', timestamp 'now'),
+	(202102, '100', '101', 'CORPO', 'PERSONAL', 'Administración de Personal', 'Personal Activo', 999.75, 'Pepe', timestamp 'now'),
+	(202102, '100', '101', 'CORPO', 'PERSONAL', 'Bajas de Empleados', 'Personal Activo',  1021.25, 'Pepe', timestamp 'now'),
+	(202102, '100', '101', 'CORPO', 'PERSONAL', 'Nómina y Beneficios Sociales', 'Personal Activo', 1032, 'Pepe', timestamp 'now'),
+	(202102, '100', '101', 'CORPO', 'PERSONAL', 'Gestión de la Formación', 'Personal Activo', 1042.75, 'Pepe', timestamp 'now'),
+	(202102, '100', '101', 'CORPO', 'PERSONAL', 'Gestión del Talento', 'Personal Activo', 1128.75, 'Pepe', timestamp 'now'),
+	(202102, '100', '101', 'CORPO', 'PERSONAL', 'Servicio de Atención al Empleado', 'Personal Activo', 1150.25, 'Pepe', timestamp 'now'),
+	(202102, '100', '101', 'CORPO', 'ECOFI', 'Gestión y Contabilización de Pagos', 'Nº Pagos CSC', 2924.48, 'Pepe', timestamp 'now'),
+	(202102, '100', '101', 'CORPO', 'ECOFI', 'Facturación y Cobro Especial', 'Nº Facturas emitidas', 5286.22, 'Pepe', timestamp 'now'),
+	(202102, '100', '101', 'CORPO', 'ECOFI', 'Gestión de Medios de Pago', 'Nº Movimientos Bancarios', 295400.13,'Pepe', timestamp 'now' ),
+	(202102, '100', '101', 'CORPO', 'ECOFI', 'Registro y Contabilización de Albaranes y facturas', 'Nº Facturas proveedor', 26677.24, 'Pepe', timestamp 'now'),
+	(202102, '100', '101', 'CORPO', 'COMPRAS', 'Compras Transaccionales', 'Cantidad de Adjudicaciones', 389.06, 'Pepe', timestamp 'now'),
+	(202102, '100', '101', 'CORPO', 'COMPRAS', 'Compras NO Transaccionales', 'Importe Adjudicado', 251891234.45, 'Pepe', timestamp 'now');

@@ -1,3 +1,5 @@
+CREATE OR REPLACE FUNCTION public.fp_pxq(IN fec_desde numeric,IN fec_hasta numeric)
+
 DECLARE
 	tp_registro RECORD;
 	tp_registro_out RECORD;
@@ -26,6 +28,9 @@ DECLARE
 	v_par_b3 numeric(2);	
 	c_spxq cursor for select * from t_precio_consolidado
 		Where t_precio_consolidado.id_anno_mes BETWEEN $1 AND $2;
+		/*AND t_precio_consolidado.id_stack = $3 AND
+			  t_precio_consolidado.id_sociedad_csl = $4 AND t_precio_consolidado.id_sociedad_soc_rs = $5 AND
+			  t_precio_consolidado.id_proceso = $6 AND t_precio_consolidado.id_subproceso = $5; */
 
 BEGIN
 	v_stack := 'CORPO';
@@ -126,18 +131,19 @@ BEGIN
 			else
 				if (v_cal >= v_par_b1) AND (v_cal <= v_par_b2) THEN  -- Dentro de B1 y B2 con escalón
 					RAISE NOTICE 'B - v_cal %', v_cal;
-					IF ((v_r100 - v_rm ) / v_rm) < 0 THEN
-					    v_par = v_paq * ( 1 - abs((v_rm - v_r100 ) / v_r100) * (( abs(v_rm - v_r100) / v_r100) - 0.01) / 0.01  * 1 - (v_factorx / 100));
+					RAISE NOTICE '((v_rm - v_r100 ) / v_r100) CONDICION : %', ((v_rm - v_r100 ) / v_r100);
+					IF ((v_rm - v_r100 ) / v_r100) < 0 THEN
+					    v_par = v_paq * ( 1 - abs((v_rm - v_r100 ) / v_r100) * ((abs(v_rm - v_r100) / v_r100) - 0.1) / 0.1  * (1 - (v_factorx / 100)));
 					else
-						v_par = v_paq * ( 1 + abs((v_rm - v_r100 ) / v_r100) * (( abs(v_rm - v_r100) / v_r100) - 0.01) / 0.01  * 1 - (v_factorx / 100));
+						v_par = v_paq * ( 1 + (abs(v_rm - v_r100 ) / v_r100) * (abs(v_rm - v_r100) / v_r100) - 0.1 / 0.1  * (1 - (v_factorx / 100))); --aa
 					END IF;					
 				else
 					if v_cal >= v_par_b3 and v_cal <= v_par_b3 THEN -- Dentro del rango 
 						RAISE NOTICE 'C - v_cal %', v_cal;					
 						IF ((v_r100 - v_rm ) / v_rm) < 0 THEN
-							v_par = v_paq * ( 1 - abs((v_rm - v_r100 ) / v_r100) * 1 - (v_factorx / 100));
+							v_par = v_paq * ( 1 - abs((v_rm - v_r100 ) / v_r100) * (1 - (v_factorx / 100)));
 						else
-							v_par = v_paq * ( 1 + abs((v_rm - v_r100 ) / v_r100) * 1 - (v_factorx / 100));
+							v_par = v_paq * ( 1 + abs((v_rm - v_r100 ) / v_r100) * (1 - (v_factorx / 100)));
 						END IF;							
 					end if;
 				end if;
@@ -146,7 +152,7 @@ BEGIN
 			
 
 			UPDATE t_precio_consolidado
-				SET paq = v_paq, par = v_par
+				SET paq = v_paq, par = v_par, id_usuario = 'Jose', fecha_cambios = timestamp 'now'
 				WHERE t_precio_consolidado.id_anno_mes = tp_registro.id_anno_mes
 					AND t_precio_consolidado.id_proceso = tp_registro.id_proceso
 					AND t_precio_consolidado.id_subproceso = tp_registro.id_subproceso;
@@ -172,3 +178,4 @@ BEGIN
         	RAISE INFO 'Error State:%', SQLSTATE;
         	return -1;			
 END;
+$$ LANGUAGE 'plpgsql';

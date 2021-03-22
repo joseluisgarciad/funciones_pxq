@@ -1,22 +1,22 @@
-CREATE TABLE t_pais(
-	id_pais 		Text,
-	region_geo 		Text,
-	id_usuario 		Varchar,
-	fecha_cambios 	Timestamp,
+CREATE TABLE IF NOT EXISTS t_pais(
+	id_pais 				Text,
+	region_geo 				Text,
+	id_usuario 				Varchar,
+	fecha_cambios 			Timestamp,
 	PRIMARY KEY (id_pais)
 );
 
-CREATE TABLE t_ambito(
-	id_pais			Text,
-	id_ambito 		Text,
-	divisa			Text,    -- Pendiente de revisión
-	tipo_cambio		Text,    -- Pendiente de revisión
-	id_usuario 		Text,
-	fecha_cambios 	Timestamp,
+CREATE TABLE IF NOT EXISTS t_ambito(
+	id_pais					Text,
+	id_ambito 				Text,
+	divisa					Text,    -- Pendiente de revisión
+	tipo_cambio				Text,    -- Pendiente de revisión
+	id_usuario 				Text,
+	fecha_cambios 			Timestamp,
 	PRIMARY KEY (id_pais, id_ambito)
 );
 
-CREATE TABLE t_sociedades_csl(
+CREATE TABLE IF NOT EXISTS t_sociedades_csl(
 	id_ambito 				Text,
 	id_pais					Text,
 	id_sociedad_cls			Text,
@@ -39,7 +39,7 @@ CREATE TABLE t_sociedades_csl(
 );
 
 
-CREATE TABLE t_inductores_q(
+CREATE TABLE IF NOT EXISTS t_inductores_q(
 	id_stack				Text,
 	inductor_q				Text,
 	id_usuario				Text,
@@ -47,7 +47,7 @@ CREATE TABLE t_inductores_q(
 	PRIMARY KEY (id_stack, inductor_q)	
 );
 
-CREATE TABLE t_ratio_control_corpo(
+CREATE TABLE IF NOT EXISTS t_ratio_control_corpo(
 	id_stack				Text,
 	inductor_q				Text,
 	id_usuario				Text,
@@ -55,7 +55,7 @@ CREATE TABLE t_ratio_control_corpo(
 	PRIMARY KEY (id_stack, inductor_q)	
 );
 
-CREATE TABLE t_procesos_servicios(
+CREATE TABLE IF NOT EXISTS t_procesos_servicios(
 	id_stack				Text,
 	id_proceso				Text,
 	id_subproceso			Text,
@@ -67,7 +67,7 @@ CREATE TABLE t_procesos_servicios(
 
 -- Tabla pendiente de Revisión
 
-CREATE TABLE t_cargos_fijos(
+CREATE TABLE IF NOT EXISTS t_cargos_fijos(
 	id_cargo_servicio		Text,
 	descripcion				Text,
 	id_usuario				Text,
@@ -78,7 +78,7 @@ CREATE TABLE t_cargos_fijos(
 /* 
 NO ES NECESARIA A PRIORI
 
-CREATE TABLE t_precios(
+CREATE TABLE IF NOT EXISTS t_precios(
 	id_anno					Varchar(4),
 	id_pais					Text,
 	id_proceso				Text,
@@ -89,7 +89,7 @@ CREATE TABLE t_precios(
 );
 
 NO ES NECESARIA A PRIORI
-CREATE TABLE t_reparto_pais_ps(
+CREATE TABLE IF NOT EXISTS t_reparto_pais_ps(
 	id_anno					Varchar(4),
 	id_stack				Text,
 	id_pais					Text,
@@ -105,7 +105,7 @@ CREATE TABLE t_reparto_pais_ps(
 
 -- Tabla pendiente de Revisión
 
-CREATE TABLE t_reparto_cargos_fijos(
+CREATE TABLE IF NOT EXISTS t_reparto_cargos_fijos(
 	id_anno					Numeric(4),
 	id_stack				Text,
 	id_pais					Text,
@@ -120,18 +120,18 @@ CREATE TABLE t_reparto_cargos_fijos(
 
 -- Tabla pendiente de Revisión
 
-CREATE TABLE t_eficiencias(
+CREATE TABLE IF NOT EXISTS t_eficiencias(
 	id_anno					Numeric(4),
 	id_pais					Text,
 	id_proceso				Text,
-	-- id_subproceso			Text,  Pendiente de revisión
+	-- id_subproceso		Text,  Pendiente de revisión
 	porc_eficiencia			float,
 	id_usuario				Text,
 	fecha_cambios			Timestamp,
 	PRIMARY KEY (id_anno, id_pais, id_proceso)	
 );
 
-CREATE TABLE t_contratos_posicion(
+CREATE TABLE IF NOT EXISTS t_contratos_posicion(
 	id_sociedad_soc_rs		Text,
 	id_contrato				Text,
 	id_posicion				Text,
@@ -140,7 +140,7 @@ CREATE TABLE t_contratos_posicion(
 	PRIMARY KEY (id_sociedad_soc_rs, id_contrato, id_posicion)
 );
 
-CREATE TABLE t_q100(
+CREATE TABLE IF NOT EXISTS t_q100(
 	id_anno_mes				Numeric(6),
 	id_sociedad_csl			Text,
 	id_sociedad_soc_rs		Text,
@@ -154,7 +154,7 @@ CREATE TABLE t_q100(
 	PRIMARY KEY (id_anno_mes, id_sociedad_csl, id_sociedad_soc_rs, id_stack, id_proceso, id_subproceso)
 );
 
-CREATE TABLE t_q100_sim(
+CREATE TABLE IF NOT EXISTS t_q100_sim(
 	id_usuario_sim			Text,
 	id_anno_mes				Numeric(6),
 	id_sociedad_csl			Text,
@@ -170,7 +170,7 @@ CREATE TABLE t_q100_sim(
 );
 
 
-CREATE TABLE t_qm(
+CREATE TABLE IF NOT EXISTS t_qm(
 	id_anno_mes				Numeric(6),
 	id_sociedad_csl			Text,
 	id_sociedad_soc_rs		Text,
@@ -185,7 +185,7 @@ CREATE TABLE t_qm(
 	
 );
 
-CREATE TABLE t_qm_sim(
+CREATE TABLE IF NOT EXISTS t_qm_sim(
 	id_usuario_sim			Text,
 	id_anno_mes				Numeric(6),
 	id_sociedad_csl			Text,
@@ -202,8 +202,7 @@ CREATE TABLE t_qm_sim(
 );
 
 
-CREATE TABLE t_r100(
-
+CREATE TABLE IF NOT EXISTS t_r100(
 	id_anno_mes				Numeric(6),
 	id_stack				Text,
 	id_pais					Text,
@@ -218,7 +217,7 @@ CREATE TABLE t_r100(
 	
 );
 
-CREATE TABLE t_r100_sim(
+CREATE TABLE IF NOT EXISTS t_r100_sim(
 	id_usuario_sim			Text,
 	id_anno_mes				Numeric(6),
 	id_stack				Text,
@@ -235,7 +234,7 @@ CREATE TABLE t_r100_sim(
 );
 
 
-CREATE TABLE t_rm(
+CREATE TABLE IF NOT EXISTS t_rm(
 	id_anno_mes				Numeric(6),
 	id_pais					Text,
 	id_stack				Text,
@@ -243,15 +242,31 @@ CREATE TABLE t_rm(
 	id_proceso				Text,
 	id_subproceso			Text,
 	q_principal_ratio		Text,
-	r_m					Decimal,
+	r_m						Decimal,
 	id_usuario				Text,
 	fecha_cambios			Timestamp,
 	PRIMARY KEY (id_anno_mes, id_pais, id_stack, id_sociedad_soc_rs, id_proceso, id_subproceso)	
 );
 
+CREATE TABLE IF NOT EXISTS t_rm_sim(
+	id_usuario_sim			Text,
+	id_anno_mes				Numeric(6),
+	id_pais					Text,
+	id_stack				Text,
+	id_sociedad_soc_rs		Text,
+	id_proceso				Text,
+	id_subproceso			Text,
+	q_principal_ratio		Text,
+	r_m						Decimal,
+	id_usuario				Text,
+	fecha_cambios			Timestamp,
+	PRIMARY KEY (id_anno_mes, id_pais, id_stack, id_sociedad_soc_rs, id_proceso, id_subproceso)	
+);
+
+
 -- Tabla pendiente de Revisión
 
-CREATE TABLE t_precio_unitario(
+CREATE TABLE IF NOT EXISTS t_precio_unitario(
 	tipo_concepto			Varchar(2),	
 	id_anno_mes				Numeric(6),
 	id_stack				Text,
@@ -266,7 +281,7 @@ CREATE TABLE t_precio_unitario(
 	
 );
 
-CREATE TABLE t_precio_unitario_sim(
+CREATE TABLE IF NOT EXISTS t_precio_unitario_sim(
 	id_usuario_sim			Text,
 	tipo_concepto			Varchar(2),	
 	id_anno_mes				Numeric(6),
@@ -283,7 +298,7 @@ CREATE TABLE t_precio_unitario_sim(
 );
 
 
-CREATE TABLE t_banda_1(
+CREATE TABLE IF NOT EXISTS t_banda_1(
 	id_proceso				Text,
 	id_subproceso			Text,	
 	id_inductor_q			Text,
@@ -293,7 +308,7 @@ CREATE TABLE t_banda_1(
 	PRIMARY KEY (id_proceso, id_subproceso)
 );
 
-CREATE TABLE t_banda_2(
+CREATE TABLE IF NOT EXISTS t_banda_2(
 	id_proceso				Text,
 	id_subproceso			Text,	
 	id_inductor_q			Text,
@@ -303,7 +318,7 @@ CREATE TABLE t_banda_2(
 	PRIMARY KEY (id_proceso, id_subproceso)			
 );
 
-CREATE TABLE t_banda_1_sim(
+CREATE TABLE IF NOT EXISTS t_banda_1_sim(
 	id_usuario_sim			Text,	
 	id_proceso				Text,
 	id_subproceso			Text,	
@@ -314,7 +329,7 @@ CREATE TABLE t_banda_1_sim(
 	PRIMARY KEY (id_usuario_sim ,id_proceso , id_subproceso)
 );
 
-CREATE TABLE t_banda_2_sim(
+CREATE TABLE IF NOT EXISTS t_banda_2_sim(
 	id_usuario_sim			Text,	
 	id_proceso				Text,
 	id_subproceso			Text,	
@@ -326,7 +341,7 @@ CREATE TABLE t_banda_2_sim(
 );
 
 
-CREATE TABLE t_factor_x(
+CREATE TABLE IF NOT EXISTS t_factor_x(
 	id_anno_mes				Numeric(6),
 	id_pais					Text,
 	id_proceso				Text,
@@ -339,7 +354,7 @@ CREATE TABLE t_factor_x(
 
 );
 
-CREATE TABLE t_factor_x_sim(
+CREATE TABLE IF NOT EXISTS t_factor_x_sim(
 	id_usuario_sim			Text,	
 	id_anno_mes				Numeric(6),
 	id_pais					Text,
@@ -353,7 +368,7 @@ CREATE TABLE t_factor_x_sim(
 
 );
 
-CREATE TABLE t_precio_consolidado(
+CREATE TABLE IF NOT EXISTS t_precio_consolidado(
 	id_anno_mes				Numeric(6),
 	id_stack				Text,
 	id_sociedad_csl			Text,
@@ -370,7 +385,7 @@ CREATE TABLE t_precio_consolidado(
 	
 );
 
-CREATE TABLE t_precio_consolidado_sim(
+CREATE TABLE IF NOT EXISTS t_precio_consolidado_sim(
 	id_usuario_sim			Text,
 	id_anno_mes				Numeric(6),
 	id_stack				Text,
@@ -388,7 +403,39 @@ CREATE TABLE t_precio_consolidado_sim(
 	
 );
 
-CREATE TABLE t_periodos(
+CREATE TABLE IF NOT EXISTS t_precio_overhead(
+	id_anno_mes				Numeric(6),
+	id_stack				Text,
+	id_sociedad_csl			Text,
+	id_sociedad_soc_rs		Text,
+	id_proceso				Text,
+	id_subproceso			Text,
+	id_inductor_q			Text,
+	r_100					float,
+	cantidad				float,
+	id_usuario				Text,
+	fecha_cambios			Timestamp,
+	PRIMARY KEY (id_anno_mes, id_stack, id_sociedad_csl, id_sociedad_soc_rs, id_proceso, id_subproceso)	
+	
+);
+
+CREATE TABLE IF NOT EXISTS t_precio_overhead_sim(
+	id_anno_mes				Numeric(6),
+	id_stack				Text,
+	id_sociedad_csl			Text,
+	id_sociedad_soc_rs		Text,
+	id_proceso				Text,
+	id_subproceso			Text,
+	id_inductor_q			Text,
+	r_100					float,
+	cantidad				float,
+	id_usuario				Text,
+	fecha_cambios			Timestamp,
+	PRIMARY KEY (id_anno_mes, id_stack, id_sociedad_csl, id_sociedad_soc_rs, id_proceso, id_subproceso)	
+	
+);
+
+CREATE TABLE IF NOT EXISTS t_periodos(
 	id_anno_mes				Numeric(6),
 	id_stack				Text,
 	id_sociedad_csl			Text,
@@ -401,7 +448,7 @@ CREATE TABLE t_periodos(
 	PRIMARY KEY(id_proceso, tipo_dato)
 );
 
-CREATE TABLE t_usuarios_permisos(
+CREATE TABLE IF NOT EXISTS t_usuarios_permisos(
 	id_usuario				Text, -- Cuidado con primary key por el tipo de permisos que pueda tener
 	id_stack				Text,
 	id_pais					Text,
@@ -409,12 +456,14 @@ CREATE TABLE t_usuarios_permisos(
 	id_sociedad_csl			Text,	
 	id_proceso				Text,
 	rol						Text,
+	id_usuario				Text,
 	fecha_cambios			Timestamp,
 	PRIMARY KEY (id_usuario) -- ¿?¿?
 );
 
-CREATE TABLE t_facturacion_fija(
-	tipo_factura			Text,
+CREATE TABLE IF NOT EXISTS t_facturacion(
+	tipo_facturacion		Text,   --Tipo Factura (Fija, Estimada, Regularización)ç
+	tipo_coste				Text,   --TT, JV, Overhead, travel, Factura plus, Otros costes de operación, variable
 	sec_factura				Integer,
 	id_anno_mes				Numeric(6),
 	tipo_documento			Text,
@@ -429,38 +478,7 @@ CREATE TABLE t_facturacion_fija(
 	fecha_cambios			Timestamp
 );
 
-CREATE TABLE t_facturacion_estimada(
-	tipo_factura			Text,
-	sec_factura				Integer,
-	id_anno_mes				Varchar(6),
-	tipo_documento			Text,  -- Hardcode LV
-	contrato				Text,
-	posicion				Integer,
-	id_proceso				Text,
-	concepto				Text,
-	cantidad				float,
-	importe					float,
-	denominacion			Text,
-	id_usuario				Text,
-	fecha_cambios			Timestamp
-);
-
-CREATE TABLE t_facturacion_regulariz(
-	tipo_factura			Text,
-	sec_factura				Integer,
-	id_anno_mes				Numeric(6),
-	tipo_documento			Text,  
-	contrato				Text,
-	posicion				Integer,
-	concepto				Text,
-	cantidad				float,
-	importe					float,
-	denominacion			Text,
-	id_usuario				Text,
-	fecha_cambios			Timestamp
-);
-
-CREATE TABLE t_simulacion(
+CREATE TABLE IF NOT EXISTS t_simulacion(
 	id_anno_mes				Numeric(6),
 	contrato				Text,
 	posicion				Integer,

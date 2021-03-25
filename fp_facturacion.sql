@@ -1,19 +1,27 @@
-CREATE OR REPLACE FUNCTION public.fp_facturacion_1(IN id_anno_mes_desde numeric DEFAULT 0,IN id_anno_mes_hasta numeric DEFAULT  999999,IN id_pais text DEFAULT  'España'::text,IN id_sociedad_soc_rs_desde text DEFAULT  '0'::text,IN id_sociedad_soc_rs_hasta text DEFAULT  '9999999'::text)
+CREATE OR REPLACE FUNCTION fp_facturacion(IN num_factura numeric DEFAULT 1, IN id_anno_mes numeric DEFAULT 0,IN id_pais text DEFAULT  'España'::text,
+						IN id_sociedad_soc_rs_desde text DEFAULT  '0'::text,IN id_sociedad_soc_rs_hasta text DEFAULT  '9999999'::text) RETURNS integer AS $$
 
 DECLARE
 	tp_registro RECORD;
 	tp_registro_out RECORD;
+	v_usuario text;
 	v_fact text;
 	v_pos integer;
 	v_tipo_factura text;
 	c_spxq refcursor;
 	v_tipo_documento_fact text;
+	v_lean_Corpo integer;
 	v_lean_Corpo_1 integer;
 	v_lean_Corpo_2 integer;	
 	v_concepto_fact text;
 	v_tipo_coste text;
+	v_concatena_fecha text;
+	v_mes_regularizacion integer;
+	v_anno_factura integer;	
+	v_mes_letra_factura text;
+	v_fecha_factura text;
 BEGIN
-
+	v_usuario := 'Jose';
 	v_tipo_factura := 'Estimada';
 	v_lean_Corpo_1 := 60;
 	v_lean_Corpo_2 := 40;
@@ -21,27 +29,58 @@ BEGIN
 	v_concepto_fact := 'Concepto de Facturacion ???';
 	v_tipo_coste := 'Variable';
 	
+	---
+	
+	-- se formatea la fecha completa para poder tratarla
+	v_concatena_fecha := (SELECT concat(id_anno_mes, '01'));  	
+	
+	if num_factura = 1 THEN
+		v_lean_Corpo := v_lean_Corpo_1; -- 60%
+		v_fecha_factura := (SELECT (id_anno_mes)::text);
+	else 
+		if num_factura = 2 THEN	
+			v_lean_Corpo := v_lean_Corpo_2; -- 40%	
+			-- se resta 1 mes a la fecha para acceder a la facturación y PxQ del mes anterior
+			v_fecha_factura := (SELECT to_char(((v_concatena_fecha::date) - INTERVAL '1 month')::date, 'YYYYMM')); 		
+		else
+			return -1;  -- Sale del programa con error, solo debe entrar factura 1 o factura 2
+		end if;	
+	end if;	
+	 
+
+	RAISE NOTICE 'MES , v_fecha_regularizacion-%, ',v_fecha_regularizacion;
+	
+
+	v_mes_letra_factura := (SELECT to_char(concat(id_anno_mes, '01')::date, 'TMMonth'));   -- extrae mes en letra, 'MM' si quisiera en numero
+	v_anno_factura = (SELECT to_char(concat(id_anno_mes, '01')::date , 'YYYY')::integer);
+	
+	---
+	
+	RAISE NOTICE 'v_anno_factura%',v_anno_factura;
+	RAISE NOTICE 'v_mes_letra_factura%',v_mes_letra_factura;
+	
 	OPEN c_spxq for 
 		with tabla_pxq
      		as (select id_sociedad_soc_rs
 			  , id_proceso
               , sum(paq) as pxq
                 from t_precio_consolidado AS pxq
-		 				WHERE pxq.id_anno_mes BETWEEN 202101 AND 202101 
+		 				WHERE pxq.id_anno_mes = v_fecha_factura::integer AND -- El mes anterior para F2 actual para F1
+								pxq.id_sociedad_soc_rs BETWEEN id_sociedad_soc_rs_desde AND id_sociedad_soc_rs_hasta 
                 group by id_sociedad_soc_rs, id_proceso),
      		tabla_facturacion
      		as (select id_proceso
             	  , sum(importe) as fact
                 	from t_facturacion AS fact
-		 					WHERE fact.id_anno_mes BETWEEN 202101 AND 202101 
+		 					WHERE fact.id_anno_mes = v_fecha_factura::integer AND -- El mes anterior para F2 actual para F1
+									fact.tipo_facturacion = v_tipo_factura				
                 	group by id_proceso)
      		Select coalesce(tabla_pxq.id_proceso, tabla_facturacion.id_proceso) as id_proceso
 				, tabla_pxq.id_sociedad_soc_rs
           		, tabla_pxq.pxq
           		, tabla_facturacion.fact
-          		, NULLIF(tabla_pxq.pxq,0) - NULLIF(tabla_facturacion.fact,0) as regularizacion
-				, NULLIF(tabla_pxq.pxq,0) + NULLIF(tabla_facturacion.fact,0) + (NULLIF(tabla_pxq.pxq,0) - NULLIF(tabla_facturacion.fact,0)) as estimado		
-				, ((NULLIF(tabla_pxq.pxq,0) + NULLIF(tabla_facturacion.fact,0) + (NULLIF(tabla_pxq.pxq,0) - NULLIF(tabla_facturacion.fact,0))) * v_lean_Corpo_1) / 100 as res_estimado				
+				, ROUND(NULLIF(tabla_pxq.pxq,0)::numeric,2) + ROUND(NULLIF(tabla_facturacion.fact,0)::numeric,2) as estimado		
+				, ROUND((((ROUND(NULLIF(tabla_pxq.pxq,0)::numeric,2) + ROUND(NULLIF(tabla_facturacion.fact,0)::numeric,2)) * v_lean_Corpo) / 100)::numeric,2) as res_estimado -- porcentaje Lean Corpo que corresponda
             		from tabla_pxq
                     	  full join tabla_facturacion on tabla_pxq.id_proceso = tabla_facturacion.id_proceso;		
 	
@@ -56,7 +95,8 @@ BEGIN
 				VALUES (v_tipo_factura, v_tipo_coste, 1, 202104, v_tipo_documento_fact, 
 										(SELECT id_contrato FROM t_contratos_posicion WHERE id_sociedad_soc_rs = tp_registro.id_sociedad_soc_rs),
 										(SELECT id_posicion FROM t_contratos_posicion WHERE id_sociedad_soc_rs = tp_registro.id_sociedad_soc_rs)::integer,
-										tp_registro.id_proceso, v_concepto_fact, 1, tp_registro.res_estimado, 'Concepto de Facturacion 1Abril2021', 'Jose', timestamp 'now');
+										tp_registro.id_proceso, v_concepto_fact, 1, tp_registro.res_estimado, 
+										(select concat(v_concepto_fact, v_mes_letra_factura, v_anno_factura)), v_usuario, timestamp 'now');
 
 			RAISE NOTICE 'id_contrato:%, id_posicion:%, id_proceso:%, pxq:%, fact:%, regularizacion:%',(SELECT id_contrato FROM t_contratos_posicion WHERE id_sociedad_soc_rs = tp_registro.id_sociedad_soc_rs),
 																										(SELECT id_posicion FROM t_contratos_posicion WHERE id_sociedad_soc_rs = tp_registro.id_sociedad_soc_rs),

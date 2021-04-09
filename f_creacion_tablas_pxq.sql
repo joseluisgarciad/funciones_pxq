@@ -461,6 +461,22 @@ CREATE TABLE IF NOT EXISTS t_usuarios_permisos(
 	PRIMARY KEY (id_usuario) -- ¿?¿?
 );
 
+CREATE TABLE IF NOT EXISTS t_log_ejecucion(
+	id_anno_mes			Numeric(6),
+	ejecucion			Text,
+	contador			Serial,
+	id_pais				Text,
+	id_sociedad_cls			Text,
+	id_proceso			Text,
+	id_subproceso			Text,
+	id_inductor_q			Text,
+	descripcion			Text,
+	id_usuario			Text,
+	fecha_cambios			Timestamp,
+	PRIMARY KEY (id_anno_mes, ejecucion, contador)	
+);
+
+
 CREATE TABLE IF NOT EXISTS t_facturacion(
 	tipo_facturacion		Text,   --Tipo Factura (Fija, Estimada, Regularización)ç
 	tipo_coste				Text,   --TT, JV, Overhead, travel, Factura plus, Otros costes de operación, variable
